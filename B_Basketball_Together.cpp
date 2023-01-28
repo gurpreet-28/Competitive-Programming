@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+#define int               long long
+#define f(i,a,b)          for(int i=a;i<b;i++)
+#define mp                make_pair
+#define pb                push_back
+#define all(a)            a.begin(),a.end()
+#define arraysort(a)      sort(a,a+n)
+#define endl              "\n"    
+#define inputarray(a, n)  f(i, 0, n) { cin >> a[i]; }
+#define printarray(a,n)   f(i, 0, n) { cout << a[i] << " ";}cout<<endl;
+using namespace std;
+
+signed main (){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int t=1;
+    // cin >> t;
+    while (t--){
+        int n,p=0,q,m;
+        cin >> n >> m;
+        int a[n];
+        inputarray(a,n);
+        arraysort(a);
+        int i=0,j=n-1,ans=0,s=0;
+        while(i<=j){
+            s=a[j];
+            while(s<=m && i<j){
+                a[i]=a[j];
+                s+=a[i];
+                i++;
+            }
+            if(s>m){
+                ans++;
+            }
+            j--;
+        }
+        // printarray(a,n);
+        cout << ans << endl;
+    }
+}
