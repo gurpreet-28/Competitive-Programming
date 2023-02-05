@@ -17,35 +17,21 @@ signed main (){
     int t=1;
     cin >> t;
     while (t--){
-        int n, p=0, k,q;
-        cin >> n >> k;
-        int a[n];
-        inputarray(a,n);
-        arraysort(a);
-        set<int>m;
-        f(i,0,n){
-            m.insert(a[i]);
-        }
-        int mex=0;
-        f(j,0,n){
-            if(a[j]!=mex){
+        int n, m, p=0, q;
+        char c;
+        cin >> c;
+        string s="codeforces";
+        for(int i=0;i<s.length();i++){
+            if(s[i]==c){
+                p=1;
                 break;
             }
-            mex++;
-        }
-        if(mex==n){
-            cout << m.size()+k << endl;
-            continue;
-        }
-        if(k==0){
-            cout << m.size() << endl;
+        }        
+        if(p==1){
+            cout << "YES" << endl;
         }
         else{
-            bool flag = true;
-            int now = (mex + a[n-1] + 1) / 2;
-            if (binary_search(a,a+n,now))
-                flag = false;
-            cout << m.size() + flag << endl;
+            cout << "NO" << endl;
         }
     }
 }

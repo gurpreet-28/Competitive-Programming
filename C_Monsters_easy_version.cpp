@@ -17,35 +17,36 @@ signed main (){
     int t=1;
     cin >> t;
     while (t--){
-        int n, p=0, k,q;
-        cin >> n >> k;
+        int n, m, p=0, q;
+        cin >> n;
         int a[n];
         inputarray(a,n);
         arraysort(a);
-        set<int>m;
         f(i,0,n){
-            m.insert(a[i]);
-        }
-        int mex=0;
-        f(j,0,n){
-            if(a[j]!=mex){
+            if(a[i]==1){
+                continue;
+            }
+            else{
+                p=i;
                 break;
             }
-            mex++;
         }
-        if(mex==n){
-            cout << m.size()+k << endl;
-            continue;
+        int ans = 0;
+        if(p==0){
+            ans+=a[0]-1;
+            a[0]=1;
+            p++;
         }
-        if(k==0){
-            cout << m.size() << endl;
+        f(i,p,n){
+            if(abs(a[i]-a[i-1])<=1){
+                continue;
+            }
+            else{
+                ans+=a[i]-a[i-1]-1;
+                a[i]=a[i-1]+1;
+            }
         }
-        else{
-            bool flag = true;
-            int now = (mex + a[n-1] + 1) / 2;
-            if (binary_search(a,a+n,now))
-                flag = false;
-            cout << m.size() + flag << endl;
-        }
+        cout << ans << endl;
+
     }
 }
