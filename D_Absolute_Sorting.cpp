@@ -21,31 +21,19 @@ signed main(){
     cin >> n;
     int a[n];
     inputarray(a,n);
-    reverse(a,a+n);
-    if(is_sorted(a,a+n)){
-        cout << a[n-1] << endl;
-        continue;
-    }
-    reverse(a,a+n);
-    if(is_sorted(a,a+n)){
-        cout << 0 << endl;
-        continue;
-    }
+    int ans1=0,ans2=1e9;
     f(i,0,n-1){
-        if(a[i]>a[i+1]){
-            p=a[i]+a[i+1];
-            p=(p+1)/2;
+        int x=a[i],y=a[i+1];
+        if(x<y){
+            ans2=min(ans2,(x+y)/2);
+        }
+        if(x>y){
+            ans1=max(ans1,(x+y+1)/2);
         }
     }
-    f(i,0,n){
-        a[i]=abs(a[i]-p);
-    }
-    if(is_sorted(a,a+n)){
-        cout << p << endl;
-    }
-    else{
+    if(ans1<=ans2)
+        cout << ans1 << endl;
+    else
         cout << -1 << endl;
-    }
-
   }
 }
