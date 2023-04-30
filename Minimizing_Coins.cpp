@@ -19,28 +19,6 @@
     cout << endl;
 using namespace std;
 
-int solve(int x, vector<int> &a, vector<int> &dp)
-{
-    if (x < 0)
-    {
-        return 1e8;
-    }
-    if (x == 0)
-    {
-        return 0;
-    }
-    if (dp[x] != -1)
-    {
-        return dp[x];
-    }
-    int mini = INT_MAX;
-    for (auto i : a)
-    {
-        mini = min(mini, 1 + solve(x - i, a, dp));
-    }
-    return dp[x] = mini;
-}
-
 signed main()
 {
     ios_base::sync_with_stdio(false);
@@ -50,18 +28,27 @@ signed main()
     // cin >> testcases;
     while (testcases--)
     {
-        int n, m, p = 0, q;
-        cin >> n >> m;
+        int n, m, p = 0, amount,q;
+        cin >> n >> amount;
         vector<int> a(n, 0);
         inputarray(a, n);
         sort(all(a));
-        vector<int> dp(m + 1, -1);
-        int ans = solve(m, a, dp);
-        if (ans > 1e8 || ans == -1)
-        {
+        vector<int>dp(amount+1,1e8);
+        dp[0]=0;
+        for (int coin : a) {
+            for (int i = 0; i <= amount; i++) {
+                if(i>=coin) 
+                    if (dp[i - coin] != 1e8) {
+                        dp[i] = min(dp[i], dp[i - coin] + 1);
+                    }
+            }
+        }
+        int ans=dp[amount];
+        if(ans>=1e8){
             cout << -1 << endl;
         }
-        else
-            cout << dp[m] << endl;
+        else{
+            cout << ans << endl;
+        }
     }
 }

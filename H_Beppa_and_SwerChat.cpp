@@ -3,6 +3,7 @@
 #define f(i,a,b)          for(int i=a;i<b;i++)
 #define mp                make_pair
 #define pb                push_back
+#define rall(a)           a.rbegin(),a.rend()
 #define all(a)            a.begin(),a.end()
 #define arraysort(a)      sort(a,a+n)
 #define endl              "\n"    
@@ -10,30 +11,31 @@
 #define printarray(a,n)   f(i, 0, n) { cout << a[i] << " "; } cout<<endl;
 using namespace std;
 
-signed main()
-{
+signed main (){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    int testcases = 1;
-    // cin >> testcases;
-    while (testcases--)
-    {
-        int n, m=1e9+7, p = 0, amount,q;
-        cin >> n >> amount;
-        vector<int> a(n, 0);
-        inputarray(a, n);
-        sort(all(a));
-        vector<int>dp(amount+1,0);
-        dp[0]=1;
-        for (int i = 0; i <= amount; i++) {
-            for (int j = 0; j<n;j++) {
-                if(i>=a[j]){
-                    dp[i]+=dp[i - a[j]];
-                    dp[i]%=m;
-                }
+    int testcases=1;
+    cin >> testcases;
+    while (testcases--){
+        int n, m, p=0, q;
+        cin >> n;
+        int a[n],b[n];
+        inputarray(a,n);
+        inputarray(b,n);
+        int ans=0;
+        int i=n-1,j=n-1;
+        map<int,int>mp;
+        while(i>=0 and j>=0){
+            if(a[i]!=b[j]){
+                i--;
+            }
+            else{
+                ans++;
+                i--;
+                j--;
             }
         }
-        cout << dp[amount] << endl;
+        cout << n-ans << endl;
     }
 }
