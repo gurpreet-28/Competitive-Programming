@@ -1,122 +1,89 @@
-// C++ program to count distinct divisors
-// of a given number n
 #include <bits/stdc++.h>
+#define int               long long
+#define f(i,a,b)          for(int i=a;i<b;i++)
+#define mp                make_pair
+#define pb                push_back
+#define rall(a)           a.rbegin(),a.rend()
+#define all(a)            a.begin(),a.end()
+#define arraysort(a,n)      sort(a,a+n)
+#define endl              "\n"    
+#define inputarray(a, n)  f(i, 0, n) { cin >> a[i]; }
+#define printarray(a,n)   f(i, 0, n) { cout << a[i] << " "; } cout<<endl;
 using namespace std;
 
-void SieveOfEratosthenes(int n, bool prime[],
-						bool primesquare[], int a[])
+ 
+#define MAXN 1000001
+ 
+// stores smallest prime factor for every number
+int spf[MAXN];
+ 
+// Calculating SPF (Smallest Prime Factor) for every
+// number till MAXN.
+// Time Complexity : O(nloglogn)
+void sieve()
 {
-	
-	//For more details check out: https://www.geeksforgeeks.org/sieve-of-eratosthenes/
-	
-	// Create a boolean array "prime[0..n]" and
-	// initialize all entries it as true. A value
-	// in prime[i] will finally be false if i is
-	// Not a prime, else true.
-	for (int i = 2; i <= n; i++)
-		prime[i] = true;
-
-	// Create a boolean array "primesquare[0..n*n+1]"
-	// and initialize all entries it as false. A value
-	// in squareprime[i] will finally be true if i is
-	// square of prime, else false.
-	for (int i = 0; i <= (n * n + 1); i++)
-		primesquare[i] = false;
-
-	// 1 is not a prime number
-	prime[1] = false;
-
-	for (int p = 2; p * p <= n; p++) {
-		// If prime[p] is not changed, then
-		// it is a prime
-		if (prime[p] == true) {
-			// Update all multiples of p starting from p * p
-			for (int i = p * p; i <= n; i += p)
-				prime[i] = false;
-		}
-	}
-
-	int j = 0;
-	for (int p = 2; p <= n; p++) {
-		if (prime[p]) {
-			// Storing primes in an array
-			a[j] = p;
-
-			// Update value in primesquare[p*p],
-			// if p is prime.
-			primesquare[p * p] = true;
-			j++;
-		}
-	}
-}
-
-// Function to count divisors
-int countDivisors(int n)
-{
-	// If number is 1, then it will have only 1
-	// as a factor. So, total factors will be 1.
-	if (n == 1)
-		return 1;
-
-	bool prime[n + 1], primesquare[n * n + 1];
-
-	int a[n]; // for storing primes upto n
-
-	// Calling SieveOfEratosthenes to store prime
-	// factors of n and to store square of prime
-	// factors of n
-	SieveOfEratosthenes(n, prime, primesquare, a);
-
-	// ans will contain total number of distinct
-	// divisors
-	int ans = 1;
-
-	// Loop for counting factors of n
-	for (int i = 0;; i++) {
-		// a[i] is not less than cube root n
-		if (a[i] * a[i] * a[i] > n)
-			break;
-
-		// Calculating power of a[i] in n.
-		int cnt = 1; // cnt is power of prime a[i] in n.
-		while (n % a[i] == 0) // if a[i] is a factor of n
-		{
-			n = n / a[i];
-			cnt = cnt + 1; // incrementing power
-		}
-
-		// Calculating the number of divisors
-		// If n = a^p * b^q then total divisors of n
-		// are (p+1)*(q+1)
-		ans = ans * cnt;
-	}
-
-	// if a[i] is greater than cube root of n
-
-	// First case
-	if (prime[n])
-		ans = ans * 2;
-
-	// Second case
-	else if (primesquare[n])
-		ans = ans * 3;
-
-	// Third case
-	else if (n != 1)
-		ans = ans * 4;
-
-	return ans; // Total divisors
-}
-
-// Driver Program
-int main()
-{
-    int t;
-    cin >> t;
-    while(t--){
-    int n;
-    cin >> n;
-	cout << countDivisors(n) << endl;
+    spf[1] = 1;
+    for (int i = 2; i < MAXN; i++)
+ 
+        // marking smallest prime factor for every
+        // number to be itself.
+        spf[i] = i;
+ 
+    // separately marking spf for every even
+    // number as 2
+    for (int i = 4; i < MAXN; i += 2)
+        spf[i] = 2;
+ 
+    for (int i = 3; i * i < MAXN; i++) {
+        // checking if i is prime
+        if (spf[i] == i) {
+            // marking SPF for all numbers divisible by i
+            for (int j = i * i; j < MAXN; j += i)
+ 
+                // marking spf[j] if it is not
+                // previously marked
+                if (spf[j] == j)
+                    spf[j] = i;
+        }
     }
-	return 0;
+}
+ 
+// A O(log n) function returning primefactorization
+// by dividing by smallest prime factor at every step
+vector<int> getFactorization(int x)
+{
+    vector<int> ret;
+    while (x != 1) {
+        ret.push_back(spf[x]);
+        x = x / spf[x];
+    }
+    return ret;
+}
+
+
+void solve(){
+	int n, m, p=0, q;
+	cin >> n;
+	vector<int>v=getFactorization(n);
+	map<int,int>mp;
+	for(auto i: v){
+		mp[i]++;
+	}
+	int ans=1;
+	for(auto i: mp){
+		ans*=i.second+1;
+	}
+	cout << ans << endl;
+}
+
+signed main (){
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	int testcases=1;
+	cin >> testcases;
+	sieve();
+	while (testcases--){
+		solve();
+	}
 }

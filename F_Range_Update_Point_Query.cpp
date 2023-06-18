@@ -10,13 +10,6 @@
 #define printarray(a,n)   f(i, 0, n) { cout << a[i] << " "; } cout<<endl;
 using namespace std;
 
-bool singledigit(int n){
-    string s=to_string(n);
-    if(s.length()==1){
-        return true;
-    }
-    return false;
-}
 
 int sumofdig(int n){
     int sum=0;
@@ -40,7 +33,7 @@ signed main (){
         inputarray(a,n);
         int single[n]={0};
         f(i,0,n){
-            if(singledigit(a[i])){
+            if(a[i]<10){
                 single[i]=1;
                 p++;
             }
@@ -56,7 +49,7 @@ signed main (){
                     f(i,x,y+1){
                         if(single[i]==0){
                             a[i]=sumofdig(a[i]);
-                            if(singledigit(a[i])){
+                            if(a[i]<10){
                                 single[i]=1;
                                 p++;
                             }

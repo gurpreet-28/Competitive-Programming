@@ -31,11 +31,26 @@ signed main()
         int a[n];
         inputarray(a,n);
         q=m/k;
-        if(m%k!=0){
-            q++;
+        int r=m%k;
+        sort(a,a+n);
+        reverse(a,a+n);
+        bool t=true;
+        f(i,0,n){
+            if(a[i]>q+1){
+                t=false;
+                break;
+            }
+            else if(a[i]==q+1){
+                if(r>0){
+                   r--;
+                }
+                else{
+                    t=false;
+                    break;
+                }
+            }
         }
-        int maxi=*max_element(a,a+n);
-        if(maxi>q){
+        if(!t){
             cout << "NO" << endl;
         }
         else{
